@@ -1,0 +1,35 @@
+{
+  "student_id": "2A202602599",
+  "dag_run_id": "lab_failure_pipeline_20261013",
+  "selected_task": "silver_frames",
+  "selected_map_index": 17,
+  "trip": "trip-06570",
+  "method": "Airflow UI Clear and Retry on failed mapped task, default downstream selection retained",
+  "affected_task_count": 8,
+  "selection_text": "Clear and RetryTask:silver_framesRun:lab_failure_pipeline_20261013Map Index:17Include: PastFutureUpstreamDownstreamRecursiveOnly FailedAffected Tasks: 8Task nameMap IndexRun Iddbt_run_silver-1lab_failure_pipeline_20261013dbt_test_silver-1lab_failure_pipeline_20261013dbt_run_gold-1lab_failure_pipeline_20261013dbt_test_gold-1lab_failure_pipeline_20261013publish_lake-1lab_failure_pipeline_20261013export_dataset-1lab_failure_pipeline_20261013publish_warehouse-1lab_failure_pipeline_20261013silver_frames17lab_failure_pipeline_20261013CancelClear",
+  "requests": [
+    {
+      "url": "/clear",
+      "payload": {
+        "dag_id": "day09_video_pipeline",
+        "dag_run_id": "lab_failure_pipeline_20261013",
+        "confirmed": "false",
+        "execution_date": "2026-10-13T04:07:11.066467+00:00",
+        "past": "false",
+        "future": "false",
+        "upstream": "false",
+        "downstream": "true",
+        "recursive": "true",
+        "only_failed": "false",
+        "task_id": "silver_frames",
+        "map_index": "17"
+      },
+      "status": 200
+    },
+    {
+      "url": "/clear",
+      "status": 200
+    }
+  ],
+  "cleared_at": "2026-10-13T04:26:44.892575+00:00"
+}

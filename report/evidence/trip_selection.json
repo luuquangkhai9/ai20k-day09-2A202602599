@@ -1,0 +1,9 @@
+{
+  "student_id": "2A202602599",
+  "trip_selection_rule": "GUIDE int(MSSV) cannot parse alphanumeric ID; use trailing numeric suffix after prefix 2A for trip selection only; full ID is retained for pipeline and report",
+  "numeric_part": "202602599",
+  "trip_count": 26,
+  "map_index": 17,
+  "trip_id": "trip-06570",
+  "instructor_rule_confirmed": false
+}

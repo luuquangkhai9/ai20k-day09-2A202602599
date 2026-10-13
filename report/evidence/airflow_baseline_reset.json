@@ -1,0 +1,16 @@
+{
+  "conf": {},
+  "dag_id": "day09_reset",
+  "dag_run_id": "lab_baseline_reset_20261013",
+  "data_interval_end": "2026-10-13T03:58:23.103833+00:00",
+  "data_interval_start": "2026-10-13T03:58:23.103833+00:00",
+  "end_date": "2026-10-13T03:58:28.964015+00:00",
+  "execution_date": "2026-10-13T03:58:23.103833+00:00",
+  "external_trigger": true,
+  "last_scheduling_decision": "2026-10-13T03:58:28.960469+00:00",
+  "logical_date": "2026-10-13T03:58:23.103833+00:00",
+  "note": null,
+  "run_type": "manual",
+  "start_date": "2026-10-13T03:58:23.922483+00:00",
+  "state": "success"
+}

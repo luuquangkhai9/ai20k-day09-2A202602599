@@ -1,0 +1,16 @@
+{
+  "conf": {},
+  "dag_id": "day09_video_pipeline",
+  "dag_run_id": "lab_failure_pipeline_20261013",
+  "data_interval_end": "2026-10-13T04:07:11.066467+00:00",
+  "data_interval_start": "2026-10-13T04:07:11.066467+00:00",
+  "end_date": "2026-10-13T04:09:23.907622+00:00",
+  "execution_date": "2026-10-13T04:07:11.066467+00:00",
+  "external_trigger": true,
+  "last_scheduling_decision": "2026-10-13T04:09:23.899866+00:00",
+  "logical_date": "2026-10-13T04:07:11.066467+00:00",
+  "note": null,
+  "run_type": "manual",
+  "start_date": "2026-10-13T04:07:11.311243+00:00",
+  "state": "failed"
+}

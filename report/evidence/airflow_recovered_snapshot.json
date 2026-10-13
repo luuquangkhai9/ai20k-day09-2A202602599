@@ -1,0 +1,341 @@
+{
+  "student_id": "2A202602599",
+  "dataset_version": "1ab78ac6d23b",
+  "silver_frames": 1246,
+  "frame_fingerprint": "6c7480dfde7e",
+  "gold_frames": 1019,
+  "by_split": {
+    "train": 693,
+    "test": 167,
+    "val": 159
+  },
+  "manifest": {
+    "dataset_version": "1ab78ac6d23b",
+    "frames": 1019,
+    "by_split": {
+      "train": 693,
+      "test": 167,
+      "val": 159
+    },
+    "by_drive": {
+      "drive_a": 436,
+      "drive_b": 583
+    },
+    "trips_by_split": {
+      "test": 4,
+      "train": 18,
+      "val": 4
+    },
+    "manifest_sha256": "2ca02a7a336f9c7e05d35daffe193db36b8b1526802e24f0e2f18292ba9a4cb6",
+    "rules": {
+      "drop": [
+        "is_black",
+        "is_blurry",
+        "is_near_dup",
+        "not sync_ok"
+      ],
+      "split": "per trip, stratified by drive, md5 order"
+    },
+    "lineage": {
+      "bronze.raw_telemetry_a": 0,
+      "bronze.raw_telemetry_b": 0,
+      "bronze.trips_raw": 0,
+      "bronze.video_files": 1,
+      "silver.frames": 25,
+      "silver.telemetry": 0,
+      "silver.frames_flagged": 0,
+      "silver.frame_telemetry": 0,
+      "input_video_sha256": {
+        "drive_a": "636ba1a98dfc5ba665d1c935e1d2064e69f4df360ff9ffbd15795957d5e7e9aa",
+        "drive_b": "bfa62703f645ff77a8578ae3fc74a00881140d38a404d43c8e2af265bbee9fdc"
+      }
+    },
+    "created_at": "2026-10-13T04:28:19.525917+00:00"
+  },
+  "trip_summary": [
+    {
+      "drive_id": "drive_a",
+      "trip_id": "trip-00003",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 60,
+      "frames_kept": 46,
+      "avg_speed_kmh": 63.2,
+      "split": "val"
+    },
+    {
+      "drive_id": "drive_a",
+      "trip_id": "trip-02086",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 60,
+      "frames_kept": 32,
+      "avg_speed_kmh": 17.6,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_a",
+      "trip_id": "trip-02097",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 36,
+      "frames_kept": 29,
+      "avg_speed_kmh": 36.2,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_a",
+      "trip_id": "trip-02134",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 60,
+      "frames_kept": 57,
+      "avg_speed_kmh": 65.1,
+      "split": "test"
+    },
+    {
+      "drive_id": "drive_a",
+      "trip_id": "trip-03904",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 22,
+      "frames_kept": 11,
+      "avg_speed_kmh": 46.1,
+      "split": "test"
+    },
+    {
+      "drive_id": "drive_a",
+      "trip_id": "trip-04622",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 60,
+      "frames_kept": 26,
+      "avg_speed_kmh": 67.1,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_a",
+      "trip_id": "trip-04868",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 60,
+      "frames_kept": 49,
+      "avg_speed_kmh": 65.7,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_a",
+      "trip_id": "trip-06570",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 45,
+      "frames_kept": 32,
+      "avg_speed_kmh": 30.0,
+      "split": "val"
+    },
+    {
+      "drive_id": "drive_a",
+      "trip_id": "trip-07304",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 34,
+      "frames_kept": 34,
+      "avg_speed_kmh": 32.7,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_a",
+      "trip_id": "trip-07774",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 34,
+      "frames_kept": 21,
+      "avg_speed_kmh": 12.8,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_a",
+      "trip_id": "trip-07900",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 30,
+      "frames_kept": 27,
+      "avg_speed_kmh": 12.4,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_a",
+      "trip_id": "trip-08888",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 60,
+      "frames_kept": 36,
+      "avg_speed_kmh": 6.5,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_a",
+      "trip_id": "trip-09608",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 41,
+      "frames_kept": 36,
+      "avg_speed_kmh": 9.2,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_b",
+      "trip_id": "trip-00722",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 60,
+      "frames_kept": 54,
+      "avg_speed_kmh": 96.1,
+      "split": "test"
+    },
+    {
+      "drive_id": "drive_b",
+      "trip_id": "trip-01037",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 44,
+      "frames_kept": 44,
+      "avg_speed_kmh": 91.5,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_b",
+      "trip_id": "trip-02689",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 23,
+      "frames_kept": 19,
+      "avg_speed_kmh": 38.8,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_b",
+      "trip_id": "trip-02736",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 60,
+      "frames_kept": 55,
+      "avg_speed_kmh": 89.8,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_b",
+      "trip_id": "trip-03365",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 60,
+      "frames_kept": 54,
+      "avg_speed_kmh": 45.1,
+      "split": "val"
+    },
+    {
+      "drive_id": "drive_b",
+      "trip_id": "trip-04237",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 60,
+      "frames_kept": 59,
+      "avg_speed_kmh": 65.7,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_b",
+      "trip_id": "trip-04324",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 60,
+      "frames_kept": 60,
+      "avg_speed_kmh": 81.9,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_b",
+      "trip_id": "trip-04871",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 60,
+      "frames_kept": 43,
+      "avg_speed_kmh": 58.3,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_b",
+      "trip_id": "trip-05297",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 31,
+      "frames_kept": 29,
+      "avg_speed_kmh": 27.3,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_b",
+      "trip_id": "trip-05905",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 60,
+      "frames_kept": 57,
+      "avg_speed_kmh": 51.9,
+      "split": "train"
+    },
+    {
+      "drive_id": "drive_b",
+      "trip_id": "trip-06667",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 29,
+      "frames_kept": 27,
+      "avg_speed_kmh": 60.5,
+      "split": "val"
+    },
+    {
+      "drive_id": "drive_b",
+      "trip_id": "trip-08448",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 60,
+      "frames_kept": 45,
+      "avg_speed_kmh": 91.2,
+      "split": "test"
+    },
+    {
+      "drive_id": "drive_b",
+      "trip_id": "trip-09209",
+      "lighting": "Day",
+      "conditions": "Clouds",
+      "frames": 37,
+      "frames_kept": 37,
+      "avg_speed_kmh": 80.2,
+      "split": "train"
+    }
+  ],
+  "dark_frames": [
+    {
+      "drive_id": "drive_a",
+      "dark_flagged": 4,
+      "dark_in_gold": 4
+    },
+    {
+      "drive_id": "drive_b",
+      "dark_flagged": 61,
+      "dark_in_gold": 58
+    }
+  ],
+  "sync": [
+    {
+      "drive_id": "drive_a",
+      "avg_gap_ms": 65.58569051580699,
+      "max_gap_ms": 2884
+    },
+    {
+      "drive_id": "drive_b",
+      "avg_gap_ms": 73.29082426127528,
+      "max_gap_ms": 3112
+    }
+  ]
+}

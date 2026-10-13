@@ -1,0 +1,28 @@
+{
+  "student_id": "2A202602599",
+  "trip_id": "trip-06570",
+  "map_index": 17,
+  "state_counts_before_clear": {
+    "success": 29,
+    "upstream_failed": 7,
+    "failed": 1
+  },
+  "state_counts_after_recovery": {
+    "success": 37
+  },
+  "cleared_task_count": 8,
+  "tasks_with_second_attempt": [
+    {
+      "task_id": "silver_frames",
+      "map_index": 17,
+      "try_number": 2
+    }
+  ],
+  "frames_before": 1246,
+  "frames_after": 1246,
+  "fingerprint_before": "6c7480dfde7e",
+  "fingerprint_after": "6c7480dfde7e",
+  "dataset_version_before": "1ab78ac6d23b",
+  "dataset_version_after": "1ab78ac6d23b",
+  "unchanged": true
+}

@@ -94,7 +94,20 @@ MSSV đầy đủ `2A202602599` tham gia `md5(trip_id || LAB_STUDENT_ID)` khi x�
 
 Lineage và khả năng tái tạo dataset.
 
-(trả lời ở đây)
+Manifest của dataset `1ab78ac6d23b` nằm ở `s3://lake/gold/datasets/1ab78ac6d23b/manifest.json`; bản sao được lưu trong `report/evidence/dataset_manifest.json`. Phần lineage ghi đúng các phiên bản bảng sau:
+
+| Bảng Delta đầu vào | Phiên bản |
+|---|---:|
+| `bronze.raw_telemetry_a` | 0 |
+| `bronze.raw_telemetry_b` | 0 |
+| `bronze.trips_raw` | 0 |
+| `bronze.video_files` | 1 |
+| `silver.frames` | 25 |
+| `silver.telemetry` | 0 |
+| `silver.frames_flagged` | 0 |
+| `silver.frame_telemetry` | 0 |
+
+SHA256 video A là `636ba1a98dfc5ba665d1c935e1d2064e69f4df360ff9ffbd15795957d5e7e9aa`, video B là `bfa62703f645ff77a8578ae3fc74a00881140d38a404d43c8e2af265bbee9fdc`. Dataset được tạo từ telemetry A/B, metadata trip, video gốc và các bảng Silver/cờ/join ở những phiên bản nêu trên. Để tái tạo sau 3 tháng cần giữ nguồn có đúng checksum, snapshot Delta và các file dữ liệu mà snapshot tham chiếu, mã/luật xử lý, phiên bản môi trường và MSSV `2A202602599`. Chỉ lưu tên dataset hoặc số commit mà đã mất file nguồn không đủ để tái tạo; version rút gọn cũng không thay thế việc kiểm tra toàn bộ nội dung.
 
 ## Bước 5 · Điều phối và phục vụ
 
@@ -102,18 +115,33 @@ Lineage và khả năng tái tạo dataset.
 
 Mô phỏng một task lỗi và phục hồi Airflow.
 
-(trả lời ở đây)
+GUIDE dùng `int(MSSV)` nên không xử lý trực tiếp được MSSV có chữ. Quy ước áp dụng trong lần chạy này là giữ nguyên `2A202602599` cho pipeline/báo cáo và dùng hậu tố số `202602599 % 26 = 17` để chọn trip thứ 17 trong danh sách sắp xếp: `trip-06570` (`trip_selection.json`). Quy ước này được ghi rõ, chưa có xác nhận riêng từ giảng viên.
+
+Sau reset và trigger DAG với `LAB_FAIL_ONCE=trip-06570`, có đúng 1 mapped task `silver_frames[17]` failed, 7 task sau upstream_failed và 29 task success. Log ghi `RuntimeError: simulated crash while extracting trip-06570; run it again`. Trong mã thực tế lỗi được gây trước decode, không phải trong lúc commit Delta.
+
+Trong giao diện, chọn đúng task đỏ và bấm Clear and Retry; giữ lựa chọn Downstream mặc định nên 8 task được clear: task lỗi cùng 7 task bị chặn. Không clear 29 task đã thành công. Sau phục hồi, 37/37 task success; chỉ `silver_frames[17]` có attempt=2, 25 task frame khác vẫn attempt=1. Silver vẫn 1246 dòng, fingerprint vẫn `6c7480dfde7e`; Gold vẫn 1019 ảnh và version `1ab78ac6d23b`. Verify sau phục hồi đạt 27/27. Bằng chứng: `airflow_recovery.json`, các bản chụp trạng thái JSON và ảnh log lỗi, lựa chọn clear, Graph phục hồi. Sau đó đã gỡ công tắc lỗi để chạy kiểm tra cuối.
 
 ### Câu 10
 
 Mở rộng lên 500 xe mỗi ngày.
 
-(trả lời ở đây)
+Đây là dự đoán kiến trúc từ mã nguồn, không phải kết quả benchmark 500 xe. Thứ nhất, decode video và I/O sẽ tăng mạnh: mỗi task hiện tải cả video drive rồi FFmpeg cắt một trip; 26 task thực hiện nhiều lượt tải cùng hai video. Cần cache/cắt segment phù hợp, worker decode song song có giới hạn và phân phối dữ liệu theo partition.
+
+Thứ hai, dbt-DuckDB hiện chạy trên một file local, phù hợp lab nhưng hạn chế RAM và khả năng nhiều job cùng ghi khi dữ liệu lớn; có thể chuyển phần biến đổi nặng sang Spark hoặc engine phân tán trên lakehouse và giữ DuckDB cho phân tích nhỏ. Thứ ba, Airflow LocalExecutor nằm chung container, parallelism=2 và mapped frames bị giới hạn một task/run; cần tách scheduler/webserver/worker, dùng CeleryExecutor hoặc KubernetesExecutor, quota và retry phù hợp. Postgres/Metabase chỉ nên nhận mart tổng hợp thay vì mọi dữ liệu video thô. Các đề xuất liên hệ chủ đề mở rộng dữ liệu và ELT trong slide 12, 22, 23 của lớp; chưa có nội dung slide trong repo để trích dẫn chi tiết.
 
 ## Câu hỏi riêng của bạn trên Metabase
 
-(trả lời ở đây)
+Câu hỏi “Trip nào có tỷ lệ khung bị loại cao nhất? — 2A202602599” được lưu thành card `46` trên [dashboard cá nhân](http://localhost:3000/dashboard/2); bản SQL và kết quả nằm ở `metabase_question.sql`/`metabase_question.json`.
+
+```sql
+SELECT drive_id, trip_id, frames, frames_kept,
+       ROUND(100.0 * (frames - frames_kept) / NULLIF(frames, 0), 2) AS dropped_pct
+FROM marts.mart_trip_summary
+ORDER BY dropped_pct DESC NULLS LAST, trip_id;
+```
+
+Kết quả có 26 trip; cao nhất là drive A, `trip-04622`, có 60 khung, giữ 26 và loại 34 (**56,67%**); tiếp theo `trip-03904` loại 11/22 khung (**50%**). Tỷ lệ này đo phần khung không được vào Gold sau toàn bộ luật chất lượng. Không thể quy tất cả phần loại cho một nguyên nhân, vì các cờ chồng lên nhau; cần đối chiếu số cờ theo trip và xem ảnh. Dashboard có 6 câu hỏi của lab và câu hỏi SQL riêng này.
 
 ## Nhìn lại
 
-(trả lời ở đây)
+Điểm nổi bật từ kết quả là 61 khung B được gắn cờ tối nhưng chỉ 58 vào Gold: giữ cảnh tối không đồng nghĩa bỏ qua các luật chất lượng khác. Việc chia ngẫu nhiên theo frame khiến cả 26 trip lẫn train/test, trong khi chia theo trip không bị chia cắt. Lab chưa đo tác động lên chất lượng mô hình nên chưa thể kết luận mức tăng/giảm accuracy. Một lỗi chưa được kiểm tra là GPS hoặc hướng bị sai nhưng vẫn là số hợp lệ: pipeline hiện chủ yếu kiểm tra tốc độ, trùng thời gian và chất lượng ảnh, chưa đối chiếu quỹ đạo hoặc tính nhất quán vật lý giữa cảm biến. Các ngưỡng ảnh cũng cần kiểm tra thêm trên camera, ánh sáng và tốc độ xe khác.
