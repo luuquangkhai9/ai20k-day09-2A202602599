@@ -54,13 +54,23 @@ Thí nghiệm nâng giới hạn làm sạch lên 1000 m/s khiến 6 dòng tốc
 
 Idempotency và ghi lại dữ liệu theo trip.
 
-(trả lời ở đây)
+Thí nghiệm chọn `trip-06570` có 45 khung. Trước và sau hai lần chạy lại, toàn bảng `silver.frames` đều có 1246 dòng và fingerprint `6c7480dfde7e`; `unchanged=true`. Bảng thử dùng append chứa 90 dòng sau hai lần ghi cùng 45 khung, tức nhân đôi 2 lần.
+
+Pipeline dùng Delta overwrite với predicate `trip_id = 'trip-06570'`, nên mỗi lần chỉ thay tập dòng của trip này trong một commit; partition vật lý của bảng là `drive_id`. Commit Delta công bố phiên bản bảng nguyên tử, tránh trạng thái đã xóa trip nhưng chưa ghi lại như cách xóa-rồi-ghi. Nếu job lỗi trước commit, phiên bản cũ vẫn đọc được; nếu chạy lại sau commit, các dòng được thay thay vì cộng thêm. Tính idempotent ở đây xét dữ liệu/frame và tín hiệu chất lượng; thời điểm xử lý và số commit Delta vẫn có thể thay đổi. Bằng chứng: `idempotency.json`.
 
 ### Câu 5
 
 Khung đen, khung tối và ngưỡng phát hiện khung trùng.
 
-(trả lời ở đây)
+Mã dbt coi brightness <12 là đen, còn 12≤brightness<40 là tối. Khung đen bị loại; khung tối chỉ bị gắn cờ để giữ điều kiện đường hầm/bóng râm hữu ích cho huấn luyện, nhưng vẫn có thể bị loại nếu đồng thời mờ, trùng hoặc mất đồng bộ. A có 6 khung đen, 9 mờ, 4 tối, 149 trùng và 7 mất đồng bộ; B có 4 đen, 0 mờ, 61 tối, 53 trùng và 7 mất đồng bộ. Các cờ có thể chồng lên nhau.
+
+| dHash khác tối đa | Khung trùng A | Khung trùng B |
+|---|---:|---:|
+| 0 | 61 | 8 |
+| 2 | 149 | 53 |
+| 6 | 363 | 244 |
+
+Giữ ngưỡng mặc định 2 là lựa chọn cân bằng cho bộ dữ liệu này: ngưỡng 6 đánh dấu hơn một nửa số khung A là trùng và có nguy cơ loại biến đổi cảnh có ích; ngưỡng 0 bỏ sót khung gần trùng do nén hoặc nhiễu nhỏ. Xe chạy chậm/dừng làm cảnh ít đổi ngay cả khi camera hoạt động tốt, nên cần xét tốc độ và xem ảnh để phân biệt trùng do cảnh với camera đứng hình. Ngưỡng dHash không tự chứng minh lỗi camera. Bằng chứng: `threshold.json`, `step_3.txt`; 9 unit test đều đạt.
 
 ## Bước 4 · Gold
 
