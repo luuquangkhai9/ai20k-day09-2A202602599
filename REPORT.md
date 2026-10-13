@@ -14,7 +14,7 @@
 - Kiểm tra cuối từ lake trống: **5/5 bước đạt**, **27/27 checks passed** trong [`report/verify.txt`](report/verify.txt); 9 unit test đạt.
 - DAG từ lake trống và DAG sau phục hồi đều có **37/37 task instance thành công**. Có 6 ảnh bằng chứng trong [`report/screenshots/`](report/screenshots/).
 - MSSV đầy đủ được giữ nguyên trong môi trường chạy và mọi bằng chứng.
-- Số liệu dưới đây lấy từ các lần chạy tại máy cá nhân; pipeline và thí nghiệm được thực thi với hỗ trợ tự động của Codex. Phần nhận xét là bản tổng hợp từ kết quả và mã nguồn, cần được người nộp đọc lại để chuẩn bị vấn đáp.
+- Số liệu dưới đây lấy từ các lần chạy tại máy cá nhân; pipeline và thí nghiệm được thực thi với hỗ trợ tự động của Codex. Phần nhận xét là bản tổng hợp từ kết quả và mã nguồn.
 - Log các bước và thí nghiệm nằm trong `report/evidence/`; ảnh giao diện nằm trong `report/screenshots/`.
 
 ## Bước 1 · Bronze
@@ -131,7 +131,7 @@ Mở rộng lên 500 xe mỗi ngày.
 
 Thứ hai, dbt-DuckDB hiện chạy trên một file local, phù hợp lab nhưng hạn chế RAM và khả năng nhiều job cùng ghi khi dữ liệu lớn; có thể chuyển phần biến đổi nặng sang Spark hoặc engine phân tán trên lakehouse và giữ DuckDB cho phân tích nhỏ. Thứ ba, Airflow LocalExecutor nằm chung container, parallelism=2 và mapped frames bị giới hạn một task/run; cần tách scheduler/webserver/worker, dùng CeleryExecutor hoặc KubernetesExecutor, quota và retry phù hợp. Postgres/Metabase chỉ nên nhận mart tổng hợp thay vì mọi dữ liệu video thô. Các đề xuất liên hệ chủ đề mở rộng dữ liệu và ELT trong slide 12, 22, 23 của lớp; chưa có nội dung slide trong repo để trích dẫn chi tiết.
 
-## Câu hỏi riêng của bạn trên Metabase
+## Câu hỏi riêng trên Metabase
 
 Câu hỏi “Trip nào có tỷ lệ khung bị loại cao nhất? — 2A202602599” được lưu thành card `46` trên [dashboard cá nhân](http://localhost:3000/dashboard/2); bản SQL và kết quả nằm ở `metabase_question.sql`/`metabase_question.json`.
 
