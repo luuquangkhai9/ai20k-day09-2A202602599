@@ -31,13 +31,22 @@ Bronze giữ hai schema riêng và cột nguồn ở dạng chữ để bảo to
 
 Chuẩn hóa schema, đồng hồ và cách ly dữ liệu lỗi.
 
-(trả lời ở đây)
+A được ép `ts_utc` sang timestamp có múi giờ và giữ tốc độ m/s. B dùng `(timestamp_ms - 1500) / 1000` để đưa về cùng đồng hồ UTC, chia `spd_kmh` cho 3,6 và chia bàn đạp phần trăm cho 100, rồi đổi tên các cột về schema chung. Mẫu đầu B sau chuẩn hóa là `2025-10-08 14:30:00.009 UTC`, chỉ cách thời điểm video bắt đầu 9 ms; tốc độ tối đa A/B lần lượt khoảng 71/100 km/h.
+
+| Drive | Trùng | Thiếu tốc độ | Ngoài khoảng tốc độ | Tổng cách ly | Sạch | Nhận vào |
+|---|---:|---:|---:|---:|---:|---:|
+| A | 20 | 30 | 3 | 53 | 2968 | 3021 |
+| B | 20 | 30 | 3 | 53 | 3181 | 3234 |
+
+Hai phép bảo toàn đều đúng: `2968 + 53 = 3021` và `3181 + 53 = 3234`. Dòng lỗi được giữ trong `silver_telemetry_rejects` cùng lý do để truy vết, đo chất lượng nguồn và xử lý lại; xóa im lặng sẽ làm mất bằng chứng. Module 2 đạt 7/7 (`step_2.txt`).
 
 ### Câu 3
 
 Cổng chất lượng: error, warn và thí nghiệm break-gate.
 
-(trả lời ở đây)
+`max_gap_ms` có severity `warn`: khoảng trống cảm biến cần được báo và đo mức ảnh hưởng, nhưng không làm mọi dữ liệu của chuyến xe mất giá trị. `in_range` mặc định là `error`, vì tốc độ ngoài 0–70 m/s không được phép lọt vào bảng sạch/dataset. Với luật gốc, dbt test Silver đạt `PASS=6 WARN=1 ERROR=0 SKIP=0`.
+
+Thí nghiệm nâng giới hạn làm sạch lên 1000 m/s khiến 6 dòng tốc độ vô lý lọt qua; test `in_range_silver_telemetry_speed_mps__70__0` vẫn giữ miền 0–70 nên bắt đủ 6 dòng, cho `PASS=5 WARN=1 ERROR=1 SKIP=0`. Khôi phục luật gốc đưa kết quả về `PASS=6 WARN=1 ERROR=0 SKIP=0`. Cổng chất lượng kiểm tra độc lập với biến đổi; một luật làm sạch bị nới không đồng nghĩa dữ liệu xấu được xuất xuống Gold. Bằng chứng: `break_gate.json` và `experiment_break_gate.txt`.
 
 ## Bước 3 · Silver frames
 
