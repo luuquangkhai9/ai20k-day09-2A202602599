@@ -1,0 +1,1 @@
+{"dataset_version": "1ab78ac6d23b", "frames": 1019, "by_split": {"train": 693, "test": 167, "val": 159}, "trips_by_split": {"test": 4, "train": 18, "val": 4}, "manifest_sha256": "2ca02a7a336f9c7e05d35daffe193db36b8b1526802e24f0e2f18292ba9a4cb6"}

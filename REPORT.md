@@ -78,13 +78,17 @@ Giữ ngưỡng mặc định 2 là lựa chọn cân bằng cho bộ dữ liệ
 
 Rò rỉ dữ liệu khi chia theo frame và theo trip.
 
-(trả lời ở đây)
+Trên 1019 khung đủ chất lượng thuộc 26 trip, chia theo frame làm 26/26 trip nằm trong nhiều split và cả 26 trip có khung ở train lẫn test. Khi chia theo trip trong Gold, số trip bị chia cắt là 0. Mỗi drive có 9 trip train, 2 val, 2 test, nên cả hai nguồn đều có mặt trong từng split.
+
+Các khung liền nhau cùng cảnh có tương quan mạnh; nếu mô hình đã học cảnh ở train rồi gặp khung gần giống ở test, điểm kiểm thử phản ánh khả năng nhớ cảnh nhiều hơn khả năng tổng quát sang chuyến xe mới. Đây là nguy cơ tạo điểm đẹp giả tạo, không phải bằng chứng đã đo mức tăng điểm của một mô hình cụ thể: lab không huấn luyện mô hình. Bằng chứng: `leakage.json` và `step_4.txt`.
 
 ### Câu 7
 
 Dataset version, tính tái lập và MSSV.
 
-(trả lời ở đây)
+Lần tạo Gold và lần `export-dataset` kế tiếp đều cho `dataset_version=1ab78ac6d23b`, 1019 ảnh, train/val/test = 693/159/167. Trong mã hiện tại, version là 12 ký tự đầu SHA256 của danh sách `frame_id|split` đã sắp xếp, nên cùng tập frame và split cho cùng tên dataset, dù giờ tạo hoặc số commit Delta thay đổi. Dùng ngày giờ/số đếm sẽ tạo tên mới cho cùng nội dung và khó đối chiếu tái lập.
+
+MSSV đầy đủ `2A202602599` tham gia `md5(trip_id || LAB_STUDENT_ID)` khi xếp trip trong từng drive; thay MSSV có thể thay split và kéo theo version khác. Tính cá nhân hóa không phải bảo đảm toán học mọi MSSV đều tạo split khác nhau. Version cũng không băm toàn bộ pixel hoặc mọi giá trị telemetry, nên không thay thế SHA256 nguồn, manifest và lineage. Bằng chứng: `step_4.txt`, `dataset_export_repeat.txt` và `run_summary.json`.
 
 ### Câu 8
 
