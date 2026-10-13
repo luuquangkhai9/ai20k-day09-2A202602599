@@ -1,0 +1,14 @@
+{
+  "lab_baseline_pipeline_20261013": {
+    "state": "success",
+    "counts": {
+      "success": 37
+    }
+  },
+  "lab_failure_pipeline_20261013": {
+    "state": "success",
+    "counts": {
+      "success": 37
+    }
+  }
+}

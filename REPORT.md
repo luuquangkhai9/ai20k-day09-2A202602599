@@ -11,6 +11,8 @@
 
 - `dataset_version` của bạn: `1ab78ac6d23b`
 - Số khung hình train / val / test của bạn: **693 / 159 / 167**.
+- Kiểm tra cuối từ lake trống: **5/5 bước đạt**, **27/27 checks passed** trong [`report/verify.txt`](report/verify.txt); 9 unit test đạt.
+- DAG từ lake trống và DAG sau phục hồi đều có **37/37 task instance thành công**. Có 6 ảnh bằng chứng trong [`report/screenshots/`](report/screenshots/).
 - MSSV đầy đủ được giữ nguyên trong môi trường chạy và mọi bằng chứng.
 - Số liệu dưới đây lấy từ các lần chạy tại máy cá nhân; pipeline và thí nghiệm được thực thi với hỗ trợ tự động của Codex. Phần nhận xét là bản tổng hợp từ kết quả và mã nguồn, cần được người nộp đọc lại để chuẩn bị vấn đáp.
 - Log các bước và thí nghiệm nằm trong `report/evidence/`; ảnh giao diện nằm trong `report/screenshots/`.
@@ -115,7 +117,7 @@ SHA256 video A là `636ba1a98dfc5ba665d1c935e1d2064e69f4df360ff9ffbd15795957d5e7
 
 Mô phỏng một task lỗi và phục hồi Airflow.
 
-GUIDE dùng `int(MSSV)` nên không xử lý trực tiếp được MSSV có chữ. Quy ước áp dụng trong lần chạy này là giữ nguyên `2A202602599` cho pipeline/báo cáo và dùng hậu tố số `202602599 % 26 = 17` để chọn trip thứ 17 trong danh sách sắp xếp: `trip-06570` (`trip_selection.json`). Quy ước này được ghi rõ, chưa có xác nhận riêng từ giảng viên.
+GUIDE dùng `int(MSSV)` nên không xử lý trực tiếp được MSSV có chữ. Quy ước áp dụng trong lần chạy này là giữ nguyên `2A202602599` cho pipeline/báo cáo và dùng hậu tố số `202602599 % 26 = 17` để chọn phần tử có chỉ số 17 (đếm từ 0) trong danh sách sắp xếp: `trip-06570` (`trip_selection.json`). Quy ước này được ghi rõ, chưa có xác nhận riêng từ giảng viên.
 
 Sau reset và trigger DAG với `LAB_FAIL_ONCE=trip-06570`, có đúng 1 mapped task `silver_frames[17]` failed, 7 task sau upstream_failed và 29 task success. Log ghi `RuntimeError: simulated crash while extracting trip-06570; run it again`. Trong mã thực tế lỗi được gây trước decode, không phải trong lúc commit Delta.
 
